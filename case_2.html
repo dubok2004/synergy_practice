@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+<title>Электронное табло</title>
+</head>
+<body>
+<style>
+#board {
+font-size: 20px;
+font-weight: bold;
+color: gray;
+}
+</style>
+
+<pre id = "board"></pre>
+
+<script>
+let day = prompt("Введите день рождения");
+let month = prompt("Введите месяц рождения");
+let year = prompt("Введите год рождения");
+
+let birthday = new Date(year, month-1, day);
+
+let fullDay = birthday.getDate();
+let fullMonth = birthday.getMonth() + 1;
+let fullYear = birthday.getFullYear();
+
+//определяем день недели
+function whatWeekDay(day) {
+const weekday = ["в воскресенье","в понедельник","во вторник","в среду","в четверг","в пятницу","в субботу"];
+const dayOfWeek = new Date(day);
+return weekday[dayOfWeek.getDay()];
+}
+
+//определяем високосность года
+function isLeap(year) {
+if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+return year + " - високосный год";
+else return year + "-й был невисокосным годом";
+}
+
+//вычисление текущего возраста
+function getYearDiff(birthday) {
+const currentDate = new Date();
+let currentYear = currentDate.getFullYear();
+let currentMonth = currentDate.getMonth();
+if (currentMonth < fullMonth) currentYear--;
+
+return "Сейчас вам " + Number(currentYear - fullYear) + " лет(года).";
+}
+
+if (year > 2025) alert("Введите корректный год рождения!");
+else alert("Вы родились " + fullDay + "." + fullMonth + "." + fullYear + ", " 
++ whatWeekDay(birthday) + ". " 
++ isLeap(fullYear)  + ". " 
++ (getYearDiff(birthday))
+);
+
+// вывод электронного табло c введенной выше датой в консоль и браузер
+const zero = `
+***  
+* *  
+* *  
+* *  
+***  
+`;
+
+const one = `
+  *  
+  *  
+  *  
+  *  
+  *  
+`;
+
+const two = `
+***  
+  *  
+***  
+*    
+***  
+`;
+
+const three = `
+***  
+  *  
+***  
+  *  
+***  
+`;
+
+const four = `
+* *  
+* *  
+***  
+  *  
+  *  
+`;
+
+const five = `
+***  
+*    
+***  
+  *  
+***  
+`;
+
+const six = `
+***  
+*    
+***  
+* *  
+***  
+`;
+
+const seven = `
+***  
+  *  
+  *  
+  *  
+  *  
+`;
+
+const eight = `
+***  
+* *  
+***  
+* *  
+***  
+`;
+
+const nine = `
+***  
+* *  
+***  
+  *  
+***  
+`;
+
+const point = `
+     
+     
+     
+     
+  *  
+`;
+
+const space = `
+     
+     
+     
+     
+     
+`;
+
+// форматирование вывода до дд.мм.гггг
+if (fullDay >= 1 && fullDay <= 9) fullDay = "0" + fullDay;
+if (fullMonth >= 1 && fullMonth <= 9) fullMonth = "0" + fullMonth;
+let date = fullDay + "." + fullMonth + "." + fullYear;
+
+
+// сам вывод в одну строку
+let lines = ["", "", "", "", ""]; 
+
+for (let i of date) {
+  let digit;
+
+  switch (i) {
+    case "0": digit = zero; 
+      break;
+    case "1": digit = one; 
+      break;
+    case "2": digit = two; 
+      break;
+    case "3": digit = three; 
+      break;
+    case "4": digit = four; 
+      break;
+    case "5": digit = five; 
+      break;
+    case "6": digit = six; 
+      break;
+    case "7": digit = seven; 
+      break;
+    case "8": digit = eight; 
+      break;
+    case "9": digit = nine; 
+      break;
+    case ".": digit = point; 
+      break;
+    default:  digit = space;
+  }
+
+  let line = digit.split('\n').slice(1);
+
+  for (let i = 0; i < 5; i++) {
+    lines[i] = lines[i] + line[i] + '  '; 
+  }
+}
+
+let result = lines.join('\n');
+
+console.log(result);
+document.getElementById("board").innerHTML = result;
+
+
+</script>
+
+</body>
+</html>
